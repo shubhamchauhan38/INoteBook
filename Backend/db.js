@@ -1,17 +1,16 @@
-const mongoose = require('mongoose');
-const mongoUri = 'mongodb://localhost:27017/';
+import mongoose from 'mongoose';
 
-const connectToMongo = async () => {
-    try {
-        await mongoose.connect(mongoUri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log("Connected to MongoDB successfully");
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-        process.exit(1); // Exit the process with failure
-    }
+const connectToMongo = () => {
+  mongoose.connect('mongodb://localhost:27017/inotebook', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.log('Error connecting to MongoDB', err);
+  });
 };
 
-module.exports = connectToMongo;
+export default connectToMongo;
