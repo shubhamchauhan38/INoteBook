@@ -1,26 +1,27 @@
-import { type } from '@testing-library/user-event/dist/type';
 import mongoose from 'mongoose';
 
+const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  name:{
-    tyep:String,
-    required:true
-  },
-  email:{
+  name: {
     type: String,
-    required:true,
-    unique:true
+    required: true,
   },
-  password : {
+  email: {
     type: String,
-    required : true
+    required: true,
+    unique: true,
   },
-  date:{
+  password: {
+    type: String,
+    required: true,
+  },
+  date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-
-module.exports = mongoose.model('user',UserSchema);
+const User = mongoose.model('User', UserSchema);
+User.createIndexes();
+export default User;
