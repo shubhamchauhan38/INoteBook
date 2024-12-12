@@ -1,26 +1,29 @@
-import { type } from '@testing-library/user-event/dist/type';
 import mongoose from 'mongoose';
-
+const { Schema } = mongoose;
 
 const NoteSchema = new Schema({
-  title:{
-    tyep:String,
-    required:true
+  user : {
+    type : mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
-  description:{
+  title: {
+    type: String, // Fixed typo
+    required: true,
+  },
+  description: {
     type: String,
-    required:true,
-    unique:true
+    required: true,
+    unique: true,
   },
-  tag : {
+  tag: {
     type: String,
-    default:"General"
+    default: "General",
   },
-  date:{
+  date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
-
-module.exports = mongoose.model('notes',NoteSchema);
+const Notes = mongoose.model('Notes', NoteSchema);
+export default Notes;
