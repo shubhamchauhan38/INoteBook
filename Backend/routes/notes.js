@@ -52,4 +52,42 @@ router.post(
   }
 );
 
+// Routes 2 : Update the notes /api/notes/updatenote
+router.put("/updatenote/:id", fetchUser, async (req, res) => {
+    try {
+      const { title, description, tag } = req.body;
+      const newNotes = {};
+  
+      if (title) {
+        newNotes.title = title;
+      }
+      if (description) {
+        newNotes.description = description;
+      }
+      if (tag) {
+        newNotes.tag = tag;
+      }
+  
+      // Find the note to be updated
+      let note = await Notes.findById(req.params.id);
+      if (!note) {
+        return res.status(400).send("Note not found");
+      }
+  
+      // Ensure the note belongs to the user
+      if (note.user.toString() !== req.user.id) {
+        return res.status(400).send("Not authorized to update this note");
+      }
+  
+      // Update the note with new values
+      note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNotes }, { new: true });
+  
+      res.json({ note });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+  
+
 export default router;
